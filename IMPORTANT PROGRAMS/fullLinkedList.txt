@@ -1,0 +1,278 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+class node{
+    public:
+        int data;
+        node* next;
+        
+        node(int d){
+            data=d;
+            next=NULL;
+        }
+};
+void insertAtHead(node*&head,int data){
+    node* n=new node(data);
+    n->next=head;
+    head=n;
+}
+void insertAtTail(node*&head,int data){
+    if(head==NULL){
+        head=new node(data);
+        return;
+    }
+    node*tail=head;
+    while(tail->next!=NULL){
+        tail=tail->next;
+    }
+    tail->next=new node(data);
+}
+int length(node*head){
+    int len=0;
+    while(head!=NULL){
+        head=head->next;
+        len+=1;
+    }
+    return len;
+}
+void insertAtMiddle(node*&head,int data,int pos){
+    if(head==NULL||pos==0){
+        insertAtHead(head,data);
+    }
+    else if(pos>length(head)){
+        insertAtTail(head,data);
+    }
+    else{
+        int jump=1;
+        node*temp=head;
+        while(jump<=pos-1){
+            temp=temp->next;
+            jump+=1;
+        }
+        node* n=new node(data);
+        n->next=temp->next;
+        temp->next=n;
+    }
+}
+void deleteAtMiddle(node*&head,int key){
+    node* temp=head,*prev;
+    while(temp!=NULL && temp->data==key){
+        head=temp->next;
+        free(temp);
+    }
+    while(temp!=NULL && temp->data!=key){
+        prev=temp;
+        temp=temp->next;
+    }
+    if(temp==NULL)return;
+    prev->next=temp->next;
+    free(temp);
+    
+}
+void deleteAtParticularPosition(node*&head,int pos){
+    if(head==NULL){
+        return;
+    }
+    node* temp=head;
+    if(pos==0){
+        head=temp->next;
+        free(temp);
+        return;
+    }
+    for(int i=0;temp!=NULL && i<pos-1;i++){
+        temp=temp->next;
+    }
+    if(pos>length(head)){
+        return;
+    }
+    node *next = temp->next->next;
+    free(temp->next);
+    temp->next = next; 
+}
+int RecursiveLength(node*head){
+    if(head==NULL){
+        return 0;
+    }
+    else{
+        return 1+RecursiveLength(head->next);
+    }
+}
+bool search(node*head,int number){
+    node* current=new node(number);
+    current=head;
+    while(current->next!=NULL){
+        if(current->data==number){
+            return true;
+        }
+        current=current->next;
+    }
+    return false;
+}
+bool RecursiveSearch(node*head,int number){
+    //base case
+    if(head==NULL){
+        return false;
+    }
+    //recursive case
+    if(head->data==number){
+        return true;
+    }
+    return 1+RecursiveSearch(head->next,number);
+}
+int GetTheNthNode(node*head,int index){
+    node* current=head;
+    int count=0;
+    while(current!=NULL){
+        if(count==index){
+            return(current->data);
+        }
+        count+=1;
+        current=current->next;
+    }
+}
+
+int RecursiveNode(node*head,int n){
+    int count=0;
+    if(count==n)
+        return head->data;
+    return RecursiveNode(head->next,n-1);
+}
+int EndOfLinkedList(node*head,int key){
+    node* temp=head;
+    int size=length(head);
+    if(key>size){
+        return 0;
+    }
+   
+    for(int i=0;i<=size-key-1;i++){
+        temp=temp->next;
+    }
+        return(temp->data);
+    
+}
+int UsingTwoPointers(node*head,int key){
+    node* first=head;
+    node* second=head;
+    int count=0;
+    if(head!=NULL){
+        while(count<key){
+            if(first==NULL){
+                cout<<" the value of n given is more than the size of the linked list";
+                    return 0;
+            }
+            first=first->next;
+            count++;
+        }
+        //
+        while(first!=NULL){
+            
+            second=second->next;
+            first=first->next;
+        }
+        return second->data;
+    }
+}
+int MiddleLinkedList(node*head){
+    int size=length(head);
+    node* temp=head;
+    if(size%2==0){
+        int d=size/2;
+        int count=1;
+        while(count!=d){
+            temp=temp->next;
+            count++;
+        }
+        return temp->data;
+    }
+    else{
+        int d=(size+1)/2;
+        int count=1;
+        while(count!=d){
+            temp=temp->next;
+            count++;
+        }
+        return temp->data;
+    }
+}
+int TotalTimes(node*head,int n){
+    node*temp=head;
+    int count=0;
+    int size=length(head);
+    for(int i=0;i<size;i++){
+        if((temp->data)==n){
+            count++;
+        }
+        temp=temp->next;
+    }
+    return count;
+}
+bool Palindrome(node*head){
+    node* first=head;
+    node* second=head;
+    vector<int> v;
+    while(first!=NULL){
+        v.push_back(first->data);
+        first=first->next;
+    }
+    for(int i=0;i<v.size();i++){
+        if(v[i]!=v[v.size()-i-1]){
+            return false;
+        }
+    }
+   return true;
+}
+void removeDuplicates(node*head){
+    node*first=head;
+    node*news;
+    if(first==NULL){
+        return;
+    }
+    while(first->next!=NULL){
+        if(first->data==first->next->data){
+            news=first->next->next;
+            free(first->next);
+            first->next=news;
+        }
+        else{
+            first=first->next;
+        }
+    }
+}
+void print(node*head){
+    while(head!=NULL){
+        cout<<head->data<<"->";
+        head=head->next;
+    }
+}
+
+int main(){
+    node* head=NULL;
+    insertAtHead(head,5);
+    insertAtHead(head,10);
+    insertAtHead(head,15);
+    insertAtTail(head,20);
+    insertAtMiddle(head,25,2);
+    insertAtMiddle(head,30,2);
+    insertAtMiddle(head,25,2);
+    deleteAtMiddle(head,25);
+    deleteAtParticularPosition(head,4);
+    print(head);
+    cout<<endl;
+    cout<<length(head)<<endl;
+    cout<<"recursive length is "<<RecursiveLength(head)<<endl;
+    if(search(head,25)) cout<<"True"<<endl;
+    cout<<"Recursive Search is"<<RecursiveSearch(head,25)<<endl;
+    cout<<"the Nth node is"<<GetTheNthNode(head,2)<<endl;
+    cout<<"the Recursive value is"<<RecursiveNode(head,3)<<endl;
+    cout<<"Nth node from the end of linked list "<<EndOfLinkedList(head,4)<<endl;
+    cout<<"Nth node from the end of linked list using two pointers are"<<UsingTwoPointers(head,4)<<endl;
+    cout<<"the middle of the linked list is"<<MiddleLinkedList(head)<<endl;
+    cout<<"the number of times int present in LinkedList"<<TotalTimes(head,25)<<endl;
+    if(Palindrome(head))cout<<"yes the list is Palindrome"<<endl;
+    else cout<<"no not palindrome"<<endl;
+    removeDuplicates(head);
+    cout<<"the sorted LinkedList is"<<endl;
+    print(head);
+   
+    
+}

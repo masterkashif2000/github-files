@@ -1,0 +1,55 @@
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+using namespace std;
+typedef long long int ll;
+
+class jobs{
+  public:
+  ll id;
+  ll d;
+  ll p;
+};
+
+bool compare(jobs a,jobs b){
+    if(a.p!=b.p){
+        return a.p>b.p;
+    }
+    return a.id>b.id;
+}
+
+int main(){
+    ll t;
+    cin>>t;
+    while(t--){
+        ll n;
+        cin>>n;
+        jobs *arr=new jobs[n];
+        bool *jumps=new bool[n];
+        
+        for(ll i=0;i<n;i++){
+            jumps[i]=false;
+        }
+        for(ll i=0;i<n;i++){
+            ll id,d,p;
+            cin>>id>>d>>p;
+            arr[i].id=id;
+            arr[i].d=d;
+            arr[i].p=p;
+        }
+        sort(arr,arr+n,compare);
+        ll count=0;
+        ll profit=0;
+        for(ll i=0;i<n;i++){
+            for(ll j=min(n-1,arr[i].d-1);j>=0;j--){
+                if(!jumps[j]){
+                    jumps[j]=true;
+                    count++;
+                    profit+=arr[i].p;
+                    break;
+                }
+            }
+        }
+        cout<<count<<" "<<profit<<endl;
+    }
+}

@@ -1,0 +1,29 @@
+
+// Declare a boolean flag variable,
+// initialized to false
+boolean flag = false;
+
+// Traversing number of Rows
+for (int i = 0; i < N; i++) 
+{   
+    // Traversing number of Columns  
+    for (int j = 0; j < M; j++) 
+    { 
+        // Check if key is present
+        // Set flag to true and stop 
+        // traversing further
+        if(arr[i][j] == key)
+        {
+            flag = true;
+            break;
+        }
+    } 
+
+    // If element found in the current row,
+    // stop traversing further
+    if(flag == true)
+        break;
+} 
+
+// The flag is now True if the element is present in 
+// the array otherwise it will be false.

@@ -1,0 +1,123 @@
+#include <iostream>
+#include<vector>
+#include<algorithm>
+#include<stack>
+using namespace std;
+typedef long long int ll;
+
+/*int prec(char c) 
+{ 
+    if(c == '^') 
+    return 3; 
+    else if(c == '*' || c == '/') 
+    return 2; 
+    else if(c == '+' || c == '-') 
+    return 1; 
+    else
+    return -1; 
+}*/
+
+bool is_operator(char x){
+    switch(x){
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+         return true;
+    }
+    return false;
+}
+
+string prefixToPostfix(string expression){
+    stack<string> s;
+    ll length=expression.size();
+    //reading from right to left
+    for(ll i=length-1;i>=0;i--){
+        if(is_operator(expression[i])){
+            string op1=s.top();  s.pop();
+            string op2=s.top();  s.pop();
+            
+            string temp=op1 +op2 +expression[i];
+            s.push(temp);
+        }
+        //if operator is an operand
+        else{
+            s.push(string(1,expression[i]));
+        }
+    }
+    return s.top();
+}
+
+/*string prefixToInfix(string expression){
+    stack<string> s;
+    ll length=expression.size();
+    //reading from right to left
+    for(ll i=length-1;i>=0;i--){
+        if(is_operator(expression[i])){
+            string op1=s.top();  s.pop();
+            string op2=s.top();  s.pop();
+            
+            string temp="(" + op1 +expression[i] + op2 + ")";
+            s.push(temp);
+        }
+        //if operator is an operand
+        else{
+            s.push(string(1,expression[i]));
+        }
+    }
+    return s.top();
+}*/
+  
+/*void infixToPostfix(string s){
+    stack<char> st;
+    st.push('N');
+    ll len=s.size();
+    string ns;
+    for(ll i=0;i<len;i++){
+        if((s[i]>='a' && s[i]<='z')||(s[i]>='A' && s[i]<='Z')){
+            ns+=s[i];
+        }
+        else if(s[i]=='('){
+            st.push('(');
+        }
+        else if(s[i]==')'){
+            while(st.top()!='N' && st.top()!='('){
+                char c=st.top();
+                st.pop();
+                ns+=c;
+            }
+            if(st.top()=='('){
+                char c=st.top();
+                st.top();
+            }
+        }
+        //if operator is scanned
+        else{
+            while(st.top()!='N' && prec(s[i])<=prec(st.top())){
+                char c=st.top();
+                st.pop();
+                ns+=c;
+            }
+            st.push(s[i]);
+        }
+    }
+    //pop all the remaining elements from stack
+    while(st.top()!='N'){
+        char c=st.top();
+        st.pop();
+        ns+=c;
+    }
+    cout<<ns<<endl;
+}*/
+
+int main() {
+    
+	ios_base::sync_with_stdio(0);
+	cin.tie(NULL);
+    string expression;
+    cin>>expression;
+   /* infixToPostfix(expression);
+    cout<<"Infix::"<<prefixToInfix(expression);*/
+    cout<<"Postfix::"<<prefixToPostfix(expression);
+    return 0;
+}

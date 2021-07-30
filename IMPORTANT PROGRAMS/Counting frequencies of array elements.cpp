@@ -1,0 +1,25 @@
+#include<iostream>
+#include<unordered_map>
+#include<algorithm>
+#include<vector>
+using namespace std;
+typedef long long int ll;
+
+void countFreq(int arr[], int n) 
+{ 
+    unordered_map<int,int> mp;
+    for(int i=0;i<n;i++){
+        mp[arr[i]]++;
+    }
+    for(auto p:mp){
+        cout<<p.first<<" "<<p.second<<endl;
+    }
+}
+
+int main() 
+{ 
+    int arr[] = { 10, 20, 20, 10, 10, 20, 5, 20 }; 
+    int n = sizeof(arr) / sizeof(arr[0]); 
+    countFreq(arr, n); 
+    return 0; 
+} 
